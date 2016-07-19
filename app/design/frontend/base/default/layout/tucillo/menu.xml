@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <tucillo_menu>
+        <reference name="topMenu">
+            <block type="menu/menu" name="catalog.topnav" template="tucillo/menu/main_menu.phtml">
+                <action method="setPosition">
+                    <position>main_menu</position>
+                </action>
+            </block>
+        </reference>
+    </tucillo_menu>
+</layout>

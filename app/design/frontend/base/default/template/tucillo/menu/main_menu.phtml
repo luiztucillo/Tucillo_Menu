@@ -1,0 +1,27 @@
+<?php $items = $this->getItems() ?>
+<?php if ($items->getSize()): ?>
+<nav id="nav">
+    <ol class="nav-primary">
+        <?php foreach ($items as $item): ?>
+        <li class="level0 parent">
+            <a href="<?php echo $item->getUrl() ?>" target="<?php echo $item->getTarget() ?>" class="level0">
+                <?php echo $item->getTitle() ?>
+            </a>
+            <?php $subItems = $this->getItems($item->getId()) ?>
+            <?php if ($subItems->getSize()): ?>
+                <ul class="level0">
+                    <?php foreach ($subItems as $subItem): ?>
+                    <li class="level1">
+                        <a href="<?php echo $subItem->getUrl() ?>" target="<?php echo $subItem->getTarget() ?>"
+                           class="level1">
+                            <?php echo $subItem->getTitle() ?>
+                        </a>
+                    </li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endif ?>
+        </li>
+        <?php endforeach; ?>
+    </ol>
+</nav>
+<?php endif ?>

@@ -7,22 +7,14 @@ class Tucillo_Menu_Block_Adminhtml_Item_Edit_Form extends Mage_Adminhtml_Block_W
         $id = $this->getRequest()->getParam('id');
         $data = empty($id) ? null : $this->_getModelData($id);
         
-        $form = new Varien_Data_Form(
-            array(
-                'id'        => 'edit_form',
-                'action'    => $this->getUrl(
-                    '*/*/save',
-                    array('id' => $this->getRequest()->getParam('id'))
-                ),
-                'method'    => 'post'
-            )
-        );
+        $form = new Varien_Data_Form(array(
+            'id'        => 'edit_form',
+            'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'))),
+            'method'    => 'post'
+        ));
         
-        $fieldset = $form->addFieldset(
-            'main',
-            array(
-                'legend' => Mage::helper('menu')->__('Basic Information')
-            )
+        $fieldset = $form->addFieldset('main', array(
+            'legend' => Mage::helper('menu')->__('Basic Information'))
         );
 
         $fieldset->addField('parent_menu', 'select', array(
@@ -41,19 +33,14 @@ class Tucillo_Menu_Block_Adminhtml_Item_Edit_Form extends Mage_Adminhtml_Block_W
             'options'   => Mage::helper('menu/item')->getTitleTypes(true),
         ));
         
-        $titleDisabled = isset($data['title_type']) && $data['title_type'] == 1
-            ? false : true;
+        $titleDisabled = isset($data['title_type']) && $data['title_type'] == 1 ? false : true;
         
-        $fieldset->addField(
-            'title_text',
-            'text',
-            array(
-                'label' => Mage::helper('menu')->__('Title Text'),
-                'required' => true,
-                'name' => 'title_text',
-                'disabled'  => $titleDisabled
-            )
-        );
+        $fieldset->addField('title_text', 'text', array(
+            'label' => Mage::helper('menu')->__('Title Text'),
+            'required' => true,
+            'name' => 'title_text',
+            'disabled'  => $titleDisabled
+        ));
         
         $fieldset->addField('link_type', 'select', array(
             'label'     => Mage::helper('menu')->__('Link Type'),
@@ -63,76 +50,56 @@ class Tucillo_Menu_Block_Adminhtml_Item_Edit_Form extends Mage_Adminhtml_Block_W
             'options'   => Mage::helper('menu/item')->getLinkTypes(true)
         ));
         
-        $linkDisabled = isset($data['link_type']) && $data['link_type'] == 1
-            ? false : true;
+        $linkDisabled = isset($data['link_type']) && $data['link_type'] == 1 ? false : true;
         
-        $fieldset->addField(
-            'link_url',
-            'text',
-            array(
-                'label'     => Mage::helper('menu')->__('Link URL'),
-                'name'      => 'link_url',
-                'disabled'  => $linkDisabled
-            )
-        );
+        $fieldset->addField('link_url', 'text', array(
+            'label'     => Mage::helper('menu')->__('Link URL'),
+            'name'      => 'link_url',
+            'disabled'  => $linkDisabled
+        ));
         
-        $cmsDisabled = isset($data['link_type']) && $data['link_type'] != 1
-            ? false : true;
+        $cmsDisabled = isset($data['link_type']) && $data['link_type'] != 1 ? false : true;
         
-        $fieldset->addField(
-            'cms_page',
-            'select',
-            array(
-                'label'     => Mage::helper('menu')->__('CMS Page'),
-                'name'      => 'cms_page',
-                'options'   => Mage::helper('menu/item')->getCmsPages(true),
-                'disabled'  => $cmsDisabled
-            )
-        );
+        $fieldset->addField('cms_page', 'select', array(
+            'label'     => Mage::helper('menu')->__('CMS Page'),
+            'name'      => 'cms_page',
+            'options'   => Mage::helper('menu/item')->getCmsPages(true),
+            'disabled'  => $cmsDisabled
+        ));
 
-        $fieldset->addField(
-            'category_id',
-            'text',
-            array(
-                'label'     => Mage::helper('menu')->__('Category ID'),
-                'name'      => 'category_id',
-            )
-        );
+        $fieldset->addField('category_id', 'select', array(
+            'label'     => Mage::helper('menu')->__('Category ID'),
+            'name'      => 'category_id',
+        ));
         
-        $fieldset->addField(
-            'sort_order',
-            'text',
-            array(
-                'label' => Mage::helper('menu')->__('Sort Order'),
-                'class' => 'required-entry validate-number',
-                'required' => true,
-                'name' => 'sort_order',
-            )
-        );
+        $fieldset->addField('sort_order', 'text', array(
+            'label' => Mage::helper('menu')->__('Sort Order'),
+            'class' => 'required-entry validate-number',
+            'required' => true,
+            'name' => 'sort_order',
+        ));
         
-        $fieldset->addField(
-            'target',
-            'text',
-            array(
-                'label' => Mage::helper('menu')->__('Target'),
-                'name' => 'target',
-            )
-        );
+        $fieldset->addField('target', 'text', array(
+            'label' => Mage::helper('menu')->__('Target'),
+            'name' => 'target',
+        ));
         
-        $fieldset->addField(
-            'parent_item',
-            'select',
-            array(
-                'label'     => Mage::helper('menu')->__('Parent'),
-                'name'      => 'parent_item',
-                'options'   => Mage::helper('menu/item')->getHierarchyArray(null, true)
-            )
-        );
+        $fieldset->addField('parent_item', 'select', array(
+            'label'     => Mage::helper('menu')->__('Parent'),
+            'name'      => 'parent_item',
+            'options'   => Mage::helper('menu/item')->getHierarchyArray(null, true)
+        ));
 
         $fieldset->addField('customer_group', 'multiselect', array(
             'label'     => Mage::helper('menu')->__('Customer Group'),
             'name'      => 'customer_group',
             'values'    => Mage::getModel('customer/group')->getCollection()->toOptionArray()
+        ));
+
+        $fieldset->addField('url_get_categories', 'hidden', array(
+            'name'  => 'url_get_categories',
+            'id'    => 'url_get_categories',
+            'value' => $this->getUrl('*/*/getCategories')
         ));
         
         if (!empty($data)) {

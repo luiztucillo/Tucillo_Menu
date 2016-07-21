@@ -73,4 +73,41 @@ class Tucillo_Menu_Adminhtml_ItemController extends Mage_Adminhtml_Controller_Ac
         
         return $this->_redirect('*/*/');
     }
+
+    public function getCategoriesAction()
+    {
+        $return = array();
+
+        $parentId = $this->getRequest()->getQuery('parent_id');
+
+        if (empty($parentId)) {
+            $parentId   = array();
+            $stores     = Mage::app()->getStores();
+
+            /** @var Mage_Core_Model_Store $store */
+            foreach ($stores as $store) {
+                $parentId = $store->getRootCategoryId();
+            }
+        }
+
+        $collection = Mage::getModel('catalog/category')->getCollection()
+            ->addAttributeToSelect('name');
+
+        if (is_array($parentId)) {
+            $collection->addAttributeToFilter('parent_id', array('in' => $parentId));
+        }
+        else {
+            $collection->addAttributeToFilter('parent_id', $parentId);
+        }
+
+        foreach ($collection as $item) {
+            $return[] = array(
+                'value' => $item->getId(),
+                'label' => $item->getName()
+            );
+        }
+
+        $this->getResponse()->clearHeaders()->setHeader('Content-type','application/json',true);
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($return));
+    }
 }
